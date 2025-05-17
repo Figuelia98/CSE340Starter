@@ -4,3 +4,146 @@
 *:after {
   box-sizing: border-box;
 }
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+header a {
+text-decoration: none;
+color: black;
+font-weight: bolder;
+}
+.siteName{
+font-size: xx-large;
+}
+nav{
+  background-color: rgb(3, 3, 31);
+  color:white;
+  font-weight: bolder;
+  padding: 5px;
+}
+nav ul{
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+  justify-content: space-around;
+
+}
+.hero {
+  width: 100%;
+  position: relative;
+}
+.hero img{
+  width: 70%;
+}
+.text-container{
+
+  position: absolute;
+  top: 30px;
+  left: 3%;
+  background-color: rgba(255,255,255,0.5);
+  color: rgb(3, 154, 255);
+}
+.text-container ul{
+ list-style: none;
+}
+.text-container li{
+  font-size: x-large ;
+  position: relative;
+  right: 40px;
+}
+.text-container button{
+  background-color:  rgb(67, 180, 255);
+  color: rgb(0, 0, 0);
+  font-weight: bolder;
+  font-size: large;
+  padding: 15px;
+  padding-left:20px ;
+  padding-right:20px ;
+  border: none;
+  border-radius: 0.1rem;
+}
+.text-container button:hover{
+  opacity: 0.6;
+
+}
+section{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.grid{
+  display: grid;
+  grid-template-areas: 
+    "a b"
+    "c d";
+    justify-items: baseline;
+}
+figure{
+ margin: 0px;
+ padding: 0px;
+ margin-bottom: 10px;
+ margin-right: 10px;
+}
+figure img{
+  display: block;
+  width: 230px;
+  height: 150px;
+  margin: 0 auto;
+  background-color:  rgb(3, 154, 255);
+  padding: 30px;
+  padding-left: 80px;
+  padding-right:80px;
+  border-radius: 0.2rem;
+  border: 1px solid black;
+  box-shadow: 0px 0px 3px black;
+  margin-bottom: 10px;
+}
+figcaption{
+  text-align: center;
+}
+.container ul{
+  line-height: 3.2;
+}
+
+@media screen and (max-width: 800px) {
+  .hero{
+    margin-bottom: 30px;
+  }
+  section{
+  display: flex;
+  flex-direction: column-reverse;
+}
+}
+
+@media screen and (max-width: 600px) {
+
+  .hero img{
+    width: 90%;
+  }
+  figure img{
+     padding-left:20px ;
+     padding-right: 20px;
+     width: 130px;
+     height: 100px;
+  }
+  .text-container{
+    top: 1px;
+  }
+  .text-container li{
+  font-size: medium ;
+
+}
+.text-container button{
+ font-size: medium;
+}
+
+
+}
