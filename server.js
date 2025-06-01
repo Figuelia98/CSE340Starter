@@ -8,17 +8,30 @@
 const express = require("express")
 const env = require("dotenv").config()
 const app = express()
-const static = require("./routes/static")
+const routes = require("./routes")
+const inventoryRoute = require("./routes/inventoryRoute")
 const expressLayouts = require("express-ejs-layouts")
+const baseController = require("./controllers/baseController")
 
-/* ***********************
- * Routes
- *************************/
-app.use(static)
+
+
 //View Engine and Templates
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout")
+/* ***********************
+ * Routes
+ *************************/
+app.use('/', routes);
+app.use("/inv", inventoryRoute);
+/* ***********************
+ * Statics
+ *************************/
+app.use(express.static("public"));
+app.use("/css", express.static(__dirname + "public/css"));
+app.use("/js", express.static(__dirname + "public/js"));
+app.use("/images", express.static(__dirname + "public/images"));
+
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
