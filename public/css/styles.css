@@ -30,6 +30,14 @@ nav{
   font-weight: bolder;
   padding: 5px;
 }
+nav a{
+  color: white;
+  text-decoration: none;
+}
+nav a:hover{
+   text-decoration:underline;
+   color: #666;
+}
 nav ul{
   display: flex;
   list-style: none;
@@ -79,7 +87,7 @@ section{
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-.grid{
+.basegrid{
   display: grid;
   grid-template-areas: 
     "a b"
@@ -109,9 +117,169 @@ figure img{
 figcaption{
   text-align: center;
 }
-.container ul{
+.basecontainer ul{
   line-height: 3.2;
 }
+/* Container for all vehicles */
+#inv-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Each vehicle container */
+.grid-contenair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Image styling */
+.grid:first-child img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Text details block */
+.grid:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* Text details block */
+.grid:last-child p {
+ margin-bottom: 30px;
+}
+
+/* Headline (Make + Model) */
+.grid h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #222;
+}
+
+/* Shared style for label-value lines */
+.stylus{
+  background-color: #ddd;
+  padding: 30px;
+  border-radius: 0.2rem;
+}
+.desc{
+  box-shadow: 0px 0px 1px black;
+   border-radius: 0.2rem;
+   padding: 20px;
+}
+.stylus, .desc {
+  margin: 0;
+  font-size: 1em;
+  color: #444;
+}
+
+.desc {
+  font-style: italic;
+  color: #666;
+}
+footer a{
+  text-decoration: none;
+}
+/*NEW CSS*/
+/* Inventory List Container */
+#inv-display {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Each vehicle item */
+#inv-display li {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: background 0.2s ease;
+}
+
+#inv-display li:hover {
+  background-color: #f9f9f9;
+}
+
+/* Image Styling */
+#inv-display img {
+  width: 160px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Text Container (Name + Price) */
+.namePrice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.namePrice hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 5px 0;
+}
+
+/* Vehicle name */
+.namePrice h2 {
+  margin: 0;
+  font-size: 1.3em;
+  color: #333;
+}
+
+.namePrice h2 a {
+  text-decoration: none;
+  color: #222;
+}
+
+.namePrice h2 a:hover {
+  color: #0066cc;
+}
+
+/* Price styling */
+.namePrice span {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #009900;
+  margin-top: 5px;
+}
+
+/* Error message */
+.notice {
+  padding: 20px;
+  color: #fff;
+  background-color: #c00;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+
 
 @media screen and (max-width: 800px) {
   .hero{
@@ -120,6 +288,17 @@ figcaption{
   section{
   display: flex;
   flex-direction: column-reverse;
+}
+.grid-contenair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  align-items: start;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 }
 

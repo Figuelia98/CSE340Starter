@@ -57,5 +57,35 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+/* **************************************
+* Build the Item view HTML
+* ************************************ */
+Util.buildItem = async function(data){
+  let container
+  if(data.length > 0){
+    container = '<section id="inv-item">'
+    data.forEach(vehicle => {      
+      container += '<div class="grid-contenair" >'
+      container += '<div class="grid" >'
+      container += '<img src="' + vehicle.inv_image
+      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+      +' on CSE Motors" />'
+      container += '</div>'
+      container += '<div class="grid" >'
+      container += '<h2>'+vehicle.inv_make+' '+vehicle.inv_model+'</h2>'
+      container += '<p class="stylus"><b>Price:</b><span>$'+new Intl.NumberFormat('en-US').format(vehicle.inv_price)+'</span></p>'
+      container += '<p class="desc"><b>Description: </b>'+vehicle.inv_description+'</p>'
+      container += '<p class="stylus"><b>Color: </b>'+vehicle.inv_color+'</p>'
+      container += '<p class="stylus"><b>Miles: </b>'+vehicle.inv_miles+'</p>'
+      container += '</div>'
+      container += '</div>'
+    })
+    container += '</section>'
+  } else { 
+    container += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+  }
+  return container
+}
 
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
 module.exports = Util

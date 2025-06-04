@@ -11,6 +11,7 @@ const app = express()
 const routes = require("./routes")
 const inventoryRoute = require("./routes/inventoryRoute")
 const expressLayouts = require("express-ejs-layouts")
+const utilities = require("./utilities");
 const baseController = require("./controllers/baseController")
 
 
@@ -32,6 +33,9 @@ app.use("/css", express.static(__dirname + "public/css"));
 app.use("/js", express.static(__dirname + "public/js"));
 app.use("/images", express.static(__dirname + "public/images"));
 
+app.use(async (req, res, next) => {
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+})
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
@@ -48,4 +52,19 @@ app.listen(port, () => {
 //Index route
 app.get("/",function(req,res){
   res.render("index",{title:"Home"})
+})
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
+  res.render("errors/error", {
+    title: err.status || 'Server Error',
+    message,
+    nav
+  })
 })
