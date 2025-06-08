@@ -9,10 +9,15 @@ const express = require("express")
 const env = require("dotenv").config()
 const app = express()
 const routes = require("./routes")
+const bodyParser = require("body-parser")
 const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
 const expressLayouts = require("express-ejs-layouts")
 const utilities = require("./utilities");
 const baseController = require("./controllers/baseController")
+const session = require("express-session")
+const flash = require('connect-flash')
+const pool = require('./database/')
 
 
 
@@ -21,10 +26,32 @@ app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout")
 /* ***********************
+ * Middleware
+ * ************************/
+ app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+});
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+/* ***********************
  * Routes
  *************************/
 app.use('/', routes);
 app.use("/inv", inventoryRoute);
+app.use("/account", accountRoute);
 /* ***********************
  * Statics
  *************************/
@@ -32,6 +59,8 @@ app.use(express.static("public"));
 app.use("/css", express.static(__dirname + "public/css"));
 app.use("/js", express.static(__dirname + "public/js"));
 app.use("/images", express.static(__dirname + "public/images"));
+
+
 
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
