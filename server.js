@@ -12,6 +12,7 @@ const routes = require("./routes")
 const bodyParser = require("body-parser")
 const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
+const managementRoute = require("./routes/managementRoute")
 const expressLayouts = require("express-ejs-layouts")
 const utilities = require("./utilities");
 const baseController = require("./controllers/baseController")
@@ -52,6 +53,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/', routes);
 app.use("/inv", inventoryRoute);
 app.use("/account", accountRoute);
+app.use("/management", managementRoute);
 /* ***********************
  * Statics
  *************************/

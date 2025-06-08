@@ -1,0 +1,24 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+<%- messages() %>
+<div class="classification-container">
+  <form action="./classification" method="post">
+    <div class="form-group">
+      <label for="classification_name">New classification name</label>
+      <input
+        type="text"
+        id="classification_name"
+        name="classification_name"
+        required
+        minlength="3"
+        maxlength="30"
+        pattern="[A-Za-z\s\-]{3,30}"
+        title="3–30 characters, letters, spaces, or hyphens only"
+      />
+    </div>
+    <input type="submit" value="Add classification" />
+  </form>
+</div>

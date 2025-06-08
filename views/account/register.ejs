@@ -11,38 +11,91 @@
 <%  }) %>
  </ul>
 <% } %>
-  <div class="register-container">
-    <form action="./register" method="post">
-      <div class="form-group">
-        <label for="account_firstname">Frist Name</label>
-        <input type="text" id="account_firstname" name="account_firstname"/>
-      </div>
-        <div class="form-group">
-        <label for="account_lastname">Last Name</label>
-        <input type="text" id="account_lastname" name="account_lastname" />
-      </div>
+<div class="register-container">
+  <form action="./register" method="post" onsubmit="return validatePasswordMatch()">
+    <div class="form-group">
+      <label for="account_firstname">First Name</label>
+      <input
+        type="text"
+        id="account_firstname"
+        name="account_firstname"
+        required
+        minlength="2"
+        maxlength="50"
+        pattern="[A-Za-z\s\-]{2,50}"
+        title="2–50 characters. Letters, spaces, or hyphens only."
+      />
+    </div>
 
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="account_email" name="account_email"  />
-      </div>
+    <div class="form-group">
+      <label for="account_lastname">Last Name</label>
+      <input
+        type="text"
+        id="account_lastname"
+        name="account_lastname"
+        required
+        minlength="2"
+        maxlength="50"
+        pattern="[A-Za-z\s\-]{2,50}"
+        title="2–50 characters. Letters, spaces, or hyphens only."
+      />
+    </div>
 
-  
+    <div class="form-group">
+      <label for="account_email">Email Address</label>
+      <input
+        type="email"
+        id="account_email"
+        name="account_email"
+        required
+        maxlength="100"
+        title="Please enter a valid email address."
+      />
+    </div>
 
-      <div class="form-group">
-        <label for="account_password">Password</label>
-        <input type="password" id="account_password" name="account_password"  />
-      </div>
+    <div class="form-group">
+      <label for="account_password">Password</label>
+      <input
+        type="password"
+        id="account_password"
+        name="account_password"
+        required
+        minlength="12"
+        maxlength="100"
+        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}"
+        title="At least 12 characters with uppercase, lowercase, number, and symbol."
+      />
+    </div>
 
-      <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" name="confirm_password"  />
-      </div>
+    <div class="form-group">
+      <label for="confirm-password">Confirm Password</label>
+      <input
+        type="password"
+        id="confirm-password"
+        name="confirm_password"
+        required
+        minlength="12"
+        maxlength="100"
+        title="Must match the password field."
+      />
+    </div>
 
-      <input type="submit" value="Register" />
+    <input type="submit" value="Register" />
 
-      <div class="form-footer">
-        <p>Already have an account? <a href="./login">Login here</a></p>
-      </div>
-    </form>
-  </div>
+    <div class="form-footer">
+      <p>Already have an account? <a href="./login">Login here</a></p>
+    </div>
+  </form>
+</div>
+
+<script>
+  function validatePasswordMatch() {
+    const pw = document.getElementById('account_password').value;
+    const cpw = document.getElementById('confirm-password').value;
+    if (pw !== cpw) {
+      alert('Passwords do not match.');
+      return false;
+    }
+    return true;
+  }
+</script>

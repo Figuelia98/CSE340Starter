@@ -10,6 +10,35 @@ body {
   margin: 0;
   padding: 20px;
 }
+.menu {
+  list-style: none;
+  width:60% ;
+  min-width: 350px;
+  display: block;
+  margin: 0 auto;
+}
+.menu li {
+  margin-bottom: 10px;
+
+}
+.menu li a {
+  display: block;
+  text-decoration: none;
+  padding: 10px 15px;
+  text-align: center;
+  color: #333;
+  font-size: medium;
+  font-weight: bolder;
+  background-color: #a7b0d8;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.menu li a:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
 header{
   display: flex;
   flex-direction: row;
@@ -281,20 +310,10 @@ footer a{
 }
 
 /* LOGIN CSS  */
-input:required:invalid, input:focus:invalid {
- background-image: url(/images/invalid.png);
- background-position: right top;
- background-repeat: no-repeat;
-}
- input:required:valid {
- background-image: url(/images/valid.png);
- background-position: right top;
- background-repeat: no-repeat;
- }
  h1{
   text-align: center;
  }
-.login-container,.register-container  {
+.login-container,.register-container,.classification-container,.form-container{
       background: white;
       padding: 2rem;
       border-radius: 12px;
@@ -316,7 +335,7 @@ input:required:invalid, input:focus:invalid {
     }
 
     input[type="text"],input[type="email"],
-    input[type="password"] {
+    input[type="password"],input[type="number"] ,select,textarea{
       width: 100%;
       padding: 0.75rem;
       border: 1px solid #ccc;

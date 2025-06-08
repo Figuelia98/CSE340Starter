@@ -5,21 +5,37 @@
 } %>
 <%- messages() %>
 <div class="login-container">
-    <form action="./login" method="post">
-      <div class="form-group">
-        <label for="account_email">Email</label>
-        <input type="text" id="account_username" name="account_email" required />
-      </div>
-      
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="account_password" name="account_password" required />
-      </div>
-      
-      <input type="submit" value="Login" />
-      
-      <div class="form-footer">
-        <p>Don't have an account? <a href="./register">Register</a></p>
-      </div>
-    </form>
-  </div>
+  <form action="./login" method="post">
+    <div class="form-group">
+      <label for="account_email">Email</label>
+      <input
+        type="email"
+        id="account_email"
+        name="account_email"
+        required
+        maxlength="100"
+        title="Please enter a valid email address"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="account_password">Password</label>
+      <input
+        type="password"
+        id="account_password"
+        name="account_password"
+        required
+        minlength="8"
+        maxlength="100"
+        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
+        title="Password must be at least 8 characters long and include uppercase, lowercase, number, and symbol"
+      />
+    </div>
+
+    <input type="submit" value="Login" />
+
+    <div class="form-footer">
+      <p>Don't have an account? <a href="./register">Register</a></p>
+    </div>
+  </form>
+</div>
