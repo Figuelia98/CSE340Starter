@@ -4,8 +4,15 @@
   res.redirect('/')
 } %>
 <%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
 <div class="classification-container">
-  <form action="./classification" method="post">
+  <form action="./addclassification" method="post">
     <div class="form-group">
       <label for="classification_name">New classification name</label>
       <input
@@ -15,8 +22,9 @@
         required
         minlength="3"
         maxlength="30"
-        pattern="[A-Za-z\s\-]{3,30}"
-        title="3–30 characters, letters, spaces, or hyphens only"
+        pattern="^[A-Za-z\-]{3,30}$"
+        title="3–30 characters, letters or hyphens only. No spaces allowed."
+        value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>"
       />
     </div>
     <input type="submit" value="Add classification" />

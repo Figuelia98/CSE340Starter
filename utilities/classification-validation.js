@@ -9,10 +9,12 @@ validate.classificationDataRules = () => {
   return [
     // Make is required and must be string
     body("classification_name")
-      .trim()
-      .escape()
-      .notEmpty()
-      .withMessage("Please provide a classfication name"),
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage("Please provide a classification name")
+        .matches(/^[^\s]+$/)
+        .withMessage("Classification name must not contain spaces"),
 
   ];
 };
@@ -25,6 +27,10 @@ validate.checkRegClassificationData = async (req, res, next) => {
   let errors = []
   errors = validationResult(req)
   if (!errors.isEmpty()) {
+    for(err in errors){
+        console.log("Error: "+err);
+    }
+    
     let nav = await utilities.getNav()
     res.render("management/classification", {
       errors,

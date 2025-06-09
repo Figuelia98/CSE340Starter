@@ -90,6 +90,7 @@ validate.checkRegInventoryData = async (req, res, next) => {
   let errors = []
   errors = validationResult(req)
   if (!errors.isEmpty()) {
+    console.log("Error: "+errors);
     let nav = await utilities.getNav()
     let selection = await utilities.getSelectClassification()
     res.render("management/inventory", {

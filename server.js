@@ -53,7 +53,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/', routes);
 app.use("/inv", inventoryRoute);
 app.use("/account", accountRoute);
-app.use("/management", managementRoute);
+app.use("/inv", managementRoute);
 /* ***********************
  * Statics
  *************************/
