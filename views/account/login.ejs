@@ -4,6 +4,13 @@
   res.redirect('/')
 } %>
 <%- messages() %>
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
 <div class="login-container">
   <form action="./login" method="post">
     <div class="form-group">
@@ -26,7 +33,7 @@
         id="account_password"
         name="account_password"
         required
-        minlength="8"
+        minlength="12"
         maxlength="100"
         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
         title="Password must be at least 8 characters long and include uppercase, lowercase, number, and symbol"

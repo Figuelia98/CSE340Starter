@@ -4,11 +4,27 @@
   res.redirect('/')
 } %>
 <%- messages() %>
+<h2>Inventory Management</h2>
 <ul class="menu">
     <li>
-     <a href="./inv/addclassification">Add new classificatioin</a>
+     <a href="./inv/addclassification">Add new classification</a>
     </li>
     <li>
        <a href="./inv/addinventory">Add new Inventory</a>
     </li>
+     <li>
+        <a href="./inv/udpinventory">Update Inventory</a>
+     </li>
+     <li>
+        <a href="./inv/deleteinventory">Delete Inventory</a>
+     </li>
 </ul>
+
+<h2>Account Management</h2>
+
+<ul class="menu">
+  <li>
+   <a href="./account/personalinfo">My personal information</a>
+  </li>
+</ul>
+

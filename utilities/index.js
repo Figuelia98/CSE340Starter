@@ -1,6 +1,7 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
-
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
@@ -37,7 +38,16 @@ Util.getSelectClassification = async function (req, res, next) {
   list += "</select>"
   return list
 }
-
+Util.getSelectInventory = async function (req, res, next) {
+  let data = await invModel.getInventory()
+  let list = "<select name='inv_id' required>"
+  list += '<option value="">Select Inventory</option>'
+  data.rows.forEach((row) => {
+    list += `<option id="${row.inv_id }" value="${row.inv_id }">${row.inv_make} ${row.inv_model}</option>`
+  })
+  list += "</select>"
+  return list
+}
 
 /* **************************************
 * Build the classification view HTML
@@ -102,5 +112,120 @@ Util.buildItem = async function(data){
   return container
 }
 
+/* ****************************************
+* Middleware to check token validity
+**************************************** */
+Util.checkJWTToken = (req, res, next) => {
+ if (req.cookies.jwt) {
+  jwt.verify(
+   req.cookies.jwt,
+   process.env.ACCESS_TOKEN_SECRET,
+   function (err, accountData) {
+    if (err) {
+     req.flash("Please log in")
+     res.clearCookie("jwt")
+     return res.redirect("/account/login")
+    }
+    res.locals.accountData = accountData
+    res.locals.loggedin = 1
+    next()
+   })
+ } else {
+  next()
+ }
+}
+/* ****************************************
+ *  Check Login
+ * ************************************ */
+ Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+ }
+
+/* ****************************************
+ *  Check Employee or Admin
+ * ************************************ */
+Util.checkEmployeeOrAdmin = (req, res, next) => {
+  if (
+    res.locals.loggedin &&
+    res.locals.accountData &&
+    (res.locals.accountData.account_type === 'Employee' || res.locals.accountData.account_type === 'Admin')
+  ) {
+    next();
+  } else {
+    req.flash("notice", "You must be logged in as an Employee or Admin to access this page.");
+    return res.redirect("/account/login");
+  }
+};
+
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
-module.exports = Util
+
+/* **************************************
+* Build inventory items into HTML table components
+* ************************************ */
+Util.buildInventoryTable = function(data) {
+  // Set up the table labels
+  let dataTable = '<thead>';
+  dataTable += '<tr><th>Vehicle Name</th><td>&nbsp;</td><td>&nbsp;</td></tr>';
+  dataTable += '</thead>';
+  // Set up the table body
+  dataTable += '<tbody>';
+  // Iterate over all vehicles in the array and put each in a row
+  data.forEach(function (element) {
+    dataTable += `<tr><td>${element.inv_make} ${element.inv_model}</td>`;
+    dataTable += `<td><a href='/inv/edit/${element.inv_id}' title='Click to update'>Modify</a></td>`;
+    dataTable += `<td><a href='/inv/delete/${element.inv_id}' title='Click to delete'>Delete</a></td></tr>`;
+  })
+  dataTable += '</tbody>';
+  return dataTable;
+}
+
+/* **************************************
+* Return JS code for dynamic inventory table
+* ************************************ */
+Util.getInventoryManagementScript = function() {
+  return `
+    (function(){
+      let classificationList = document.querySelector("#classificationList");
+      function buildInventoryList(data) {
+        let inventoryDisplay = document.getElementById("inventoryDisplay");
+        let dataTable = '<thead>';
+        dataTable += '<tr><th>Vehicle Name</th><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        dataTable += '</thead>';
+        dataTable += '<tbody>';
+        data.forEach(function (element) {
+          dataTable += '<tr><td>' + element.inv_make + ' ' + element.inv_model + '</td>';
+          dataTable += "<td><a href='/inv/edit/" + element.inv_id + "' title='Click to update'>Modify</a></td>";
+          dataTable += "<td><a href='/inv/delete/" + element.inv_id + "' title='Click to delete'>Delete</a></td></tr>";
+        });
+        dataTable += '</tbody>';
+        inventoryDisplay.innerHTML = dataTable;
+      }
+      if (classificationList) {
+        classificationList.addEventListener("change", function () {
+          let classification_id = classificationList.value;
+          let classIdURL = "/inv/getInventory/" + classification_id;
+          fetch(classIdURL)
+            .then(function (response) {
+              if (response.ok) {
+                return response.json();
+              }
+              throw Error("Network response was not OK");
+            })
+            .then(function (data) {
+              buildInventoryList(data);
+            })
+            .catch(function (error) {
+              console.log('There was a problem: ', error.message);
+            });
+        });
+      }
+    })();
+  `;
+}
+
+module.exports = Util;

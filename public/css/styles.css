@@ -17,6 +17,9 @@ body {
   display: block;
   margin: 0 auto;
 }
+h2{
+  text-align: center;
+}
 input:valid,
 textarea:valid {
   background-color: #d4edda; /* light green */

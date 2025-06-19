@@ -22,4 +22,5 @@ async function addVehicle(inv_make,inv_model,inv_year,inv_description, inv_image
     return error.message
   }
 }
+
 module.exports={ addClassification, addVehicle};
